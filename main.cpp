@@ -8,7 +8,7 @@ const int MAXLINES = 10e6; ///max number of lines in file
 int main()
 {
 
-    /** Open files **/
+    /** Opening files **/
     FILE* input = fopen("input.txt", "r");
     FILE* output = fopen("output.txt", "w");
 
@@ -35,6 +35,7 @@ int main()
     ArrayToFile(array, symb, output);
     fputs("\n", output);
 
+    /** Closing files and cleaning memory **/
     fclose(output);
     fclose(input);
     free(array);
