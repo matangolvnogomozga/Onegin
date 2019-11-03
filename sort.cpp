@@ -191,7 +191,7 @@ int Compar(const void* a, const void* b)
 //!@return Pointer to the end of the appearance of signes
 //!
 //------------------------------------------------------------
-char* PunctOut(line* str)
+char* PunctOut(line str)
 {
     int i = 0;
     for(i; i < str.len; ++i)
