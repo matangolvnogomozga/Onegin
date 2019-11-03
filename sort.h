@@ -8,7 +8,7 @@
 const long MAXSYMB = 10e6; ///max number of symbols in file
 const int MAXLINES = 10e6; ///max number of lines in file
 
-/** Struct "line" contains pointer to the start of the line end it's length **/
+/** Struct "line" contains pointer to the start of the line and it's length **/
 struct line
 {
     char* pointer;
