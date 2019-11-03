@@ -20,7 +20,7 @@ int CountLines(char text[], int max);
 char* FileToArray(FILE* file, long numsymb);
 line* ArrayToStruct(char text[], int numline, long numsymb);
 int Compar(const void* a, const void* b);
-char* PunctOut(char* str);
+char* PunctOut(line str);
 int Min(int a, int b);
 void StructToFile(line* text, int number, FILE* file);
 int ComparEnd(const void* a, const void* b);
