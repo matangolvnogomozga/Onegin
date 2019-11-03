@@ -48,7 +48,6 @@ int CountLines(char text[], int numsymb)
 {
     /** Checking correctness of entry **/
     assert(text != NULL);
-    assert(isfinite(numsymb));
     assert(numsymb != 0);
     assert(numsymb <= MAXSYMB);
 
@@ -89,7 +88,6 @@ char* FileToArray(FILE* file, long numsymb)
 {
     /** Checking correctness of entry **/
     assert(file != NULL);
-    assert(isfinite(numsymb));
     assert(numsymb != 0);
     assert(numsymb <= MAXSYMB);
 
@@ -113,8 +111,6 @@ line* ArrayToStruct(char text[], int numline, long numsymb)
 {
     /** Checking correctness of entry **/
     assert(text != NULL);
-    assert(isfinite(numsymb));
-    assert(isfinite(numline));
     assert(numsymb != 0);
     assert(numline != 0);
     assert(numsymb <= MAXSYMB);
@@ -168,10 +164,13 @@ int Compar(const void* a, const void* b)
     char* str_a = a2.pointer; /// turning
     char* str_b = b2.pointer; /// to lines
 
-    str_a = PunctOut(str_a); /// ignoring signes
-    str_b = PunctOut(str_b); ///  in the start
+    str_a = PunctOut(a2); /// ignoring signes
+    str_b = PunctOut(b2); ///  in the start
     int res = 0;
-    for(int i = 0; i < Min(strlen(str_a), strlen(str_b)); ++i)
+    int len_a = strlen(str_a);
+    int len_b = strlen(str_b);
+    int min = Min(len_a, len_b);
+    for(int i = 0; i < min; ++i)
     {
         if(tolower(str_a[i]) == tolower(str_b[i])) /// ignoring high-low case
             continue;
@@ -187,20 +186,17 @@ int Compar(const void* a, const void* b)
 //------------------------------------------------------------
 //! Function "PunctOut" ignore signes in the start of the line
 //!
-//!@param [in] str Line we are working with
+//!@param [in] str Struct we are working with
 //!
 //!@return Pointer to the end of the appearance of signes
 //!
 //------------------------------------------------------------
-char* PunctOut(char* str)
+char* PunctOut(line* str)
 {
-    /** Checking correctness of entry **/
-    assert(str != NULL);
-
     int i = 0;
-    for(i; i < strlen(str); ++i)
+    for(i; i < str.len; ++i)
     {
-        if(!isalpha(str[i]))
+        if(!isalpha(str.pointer[i]))
             continue;
         else
             break; /// when signes are over
@@ -219,10 +215,6 @@ char* PunctOut(char* str)
 //------------------------------------------------------------
 int Min(int a, int b)
 {
-    /** Checking correctness of entry **/
-    assert(isfinite(a));
-    assert(isfinite(b));
-
     return (a < b) ? a : b;
 }
 
@@ -239,7 +231,6 @@ void StructToFile(line* text, int number, FILE* file)
 {
     /** Checking correctness of entry **/
     assert(text != NULL);
-    assert(isfinite(number));
     assert(number != 0);
     assert(file != NULL);
 
@@ -276,32 +267,30 @@ int ComparEnd(const void* a, const void* b)
     char* str_b = b2.pointer; /// to lines
 
     int res = 0;
-    int len_a = strlen(str_a);
-    int len_b = strlen(str_b);
 
     /** Ignored signes in the end **/
     for(int j = 0; ; ++j)
-        if(isalpha(str_a[len_a-j]))
+        if(isalpha(str_a[a2.len-j]))
         {
             len_a -= j;
             break;
         }
     for(int j = 0; ; ++j)
-        if(isalpha(str_b[len_b-j]))
+        if(isalpha(str_b[b2.len-j]))
         {
             len_b -= j;
             break;
         }
 
     /** Sorting be rhymes **/
-    int min = Min(len_a, len_b);
+    int min = Min(a2.len, b2.len);
     for(int i = 0; i < min; ++i)
     {
-        if(tolower(str_a[len_a-i]) == tolower(str_b[len_b-i])) /// ignoring high-low case
+        if(tolower(str_a[a2.len-i]) == tolower(str_b[b2.len-i])) /// ignoring high-low case
             continue;
         else
         {
-            res = tolower(str_a[len_a-i]) - tolower(str_b[len_b-i]);
+            res = tolower(str_a[a2.len-i]) - tolower(str_b[b2.len-i]);
             break;
         }
     }
@@ -320,7 +309,6 @@ void ArrayToFile(char text[], long numsymb, FILE* file)
 {
     /** Checking correctness of entry **/
     assert(text != NULL);
-    assert(isfinite(numsymb));
     assert(file != NULL);
     assert(numsymb != 0);
     assert(numsymb <= MAXSYMB);
