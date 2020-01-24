@@ -93,7 +93,17 @@ char* FileToArray(FILE* file, long numsymb)
 
     /** Creating array of symbols **/
     char* text = (char*)calloc(numsymb, sizeof(char));
-    fread(text, sizeof(char), numsymb, file);
+    if(text == 0)
+    {
+        printf("Memory error\n");
+        exit(1);
+    }
+    long check = fread(text, sizeof(char), numsymb, file);
+    if(check != numsymb)
+    {
+        printf("Reading error\n");
+        exit(1);
+    }
     return text;
 }
 
